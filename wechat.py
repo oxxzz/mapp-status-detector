@@ -2,6 +2,7 @@
     File: wechat.py
 
     Deps:
+        uv: curl -LsSf https://astral.sh/uv/install.sh | sh
         selenium:
         ```docker run -d -p 4444:4444 -p 7900:7900 --shm-size="2g" --name selenium -e SE_VNC_PASSWORD=secret selenium/standalone-chrome:latest ```
     
