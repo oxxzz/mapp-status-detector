@@ -1,0 +1,13 @@
+debug: true
+chrome-remote: http://127.0.0.1:5444/wd/hub
+app:
+  blacklist: []
+  detect-api: https://mp.weixin.qq.com/mp/waerrpage?appid={}&type=offshelf&offshelf_type=0&devicetype=iOS16.3.1&version=18002126&lang=zh_CN&nettype=WIFI&ascene=0&fontScale=100&pass_ticket=ogxNSFslKeiFlmat1WVJRa/LB9UA4qKn+7lNRdWcqe5GMF9tN3MvkopFniR3X19xlDn4sO/ECPkO6CmHeslDfA==&wx_header=3
+
+db:
+  mysql:
+    host: pxc-bjssssxxev1.polarx.rds.aliyuncs.com
+    port: 3306
+    database: db
+    username: user
+    password: secret

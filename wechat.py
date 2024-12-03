@@ -5,7 +5,7 @@
         uv: curl -LsSf https://astral.sh/uv/install.sh | sh
         selenium:
         ```docker run -d -p 4444:4444 -p 7900:7900 --shm-size="2g" --name selenium -e SE_VNC_PASSWORD=secret selenium/standalone-chrome:latest ```
-    
+
     CfgFile: cfg.yaml
     ```yaml
     debug: false
@@ -56,7 +56,8 @@ db = pymysql.connect(
     user=config['db']['mysql']['username'] or '',
     password=config['db']['mysql']['password'] or '',
     database=config['db']['mysql']['database'] or 'mysql',
-    charset='utf8'
+    charset='utf8',
+    connect_timeout=5
 )
 
 if not db.open:
@@ -87,7 +88,7 @@ options.add_argument('--blink-settings=imagesEnabled=false')
 if not config.get('debug'):
     options.add_argument('--headless')
 
-chrome = webdriver.Remote("http://127.0.0.1:5444/wd/hub", options=options)
+chrome = webdriver.Remote(config.get('chrome-remote', 'http://127.0.0.1:4444/wd/hub'), options=options)
 dingApi = 'https://oapi.dingtalk.com/robot/send?access_token=4483200e0d60953eca042e96d3a7466cd6f4a99e6053a6634122c4066ad7b907'
 
 # send ding web hook message
@@ -99,7 +100,7 @@ def dingMessage(appName, appId, title, description, platform = '微信'):
         data = {
             "msgtype": "text",
             "text": {
-                "content": f"[DT] {platform}:{appName}({appId}) {title},{description}"
+                "content": f"[DT] {platform}小程序: {appName} ({appId}) | {title},{description}"
             },
             "at": {
                 "isAtAll": True
@@ -132,7 +133,7 @@ try:
             logging.info("detect app: {} {} {} {}".format(row[1], row[0], title, description))
             continue
         logging.info("detect app: {} {} {} {}".format(row[1], row[0], title, description))
-        # dingMessage(row[1], row[0], title, description)
+        dingMessage(row[1], row[0], title, description)
     cur.close()
 except Exception as e:
     logging.error(e)
