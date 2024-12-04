@@ -129,10 +129,10 @@ try:
         ddom = soup.find('p', class_='weui-msg__desc')
         title = tdom.text.strip() if tdom is not None else ''
         description = ddom.text.strip() if ddom is not None else ''
-        if not title or not any(x in title for x in tokens):
-            logging.info("detect app: {} {} {} {}".format(row[1], row[0], title, description))
-            continue
+
         logging.info("detect app: {} {} {} {}".format(row[1], row[0], title, description))
+        if not title or not any(x in title for x in tokens):
+            continue
         dingMessage(row[1], row[0], title, description)
     cur.close()
 except Exception as e:
